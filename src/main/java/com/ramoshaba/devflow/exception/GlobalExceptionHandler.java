@@ -1,6 +1,8 @@
 package com.ramoshaba.devflow.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +19,9 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     /**
      * Handles unexpected application exceptions and returns
      * a standard HTTP 500 Internal Server Error response.
@@ -30,6 +35,13 @@ public class GlobalExceptionHandler {
             Exception exception,
             HttpServletRequest request
     ) {
+
+        //writes technical exception to the server logs.
+        LOGGER.error(
+                "Unhandled exception for request {}",
+                request.getRequestURI(),
+                exception
+        );
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 
