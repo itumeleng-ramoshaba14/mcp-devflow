@@ -9,14 +9,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Tests the REST endpoints provided by {@link HealthController}.
+ * @author Itumeleng Ramoshaba
+ */
 @WebMvcTest(HealthController.class)
 class HealthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Verifies that the health endpoint returns HTTP 200
+     * and the expected application status message.
+     */
     @Test
     void healthReturnsRunningMessage() throws Exception {
-        mockMvc.perform(get("/api/health")).andExpect(status().isOk()).andExpect(content().string("MCP DevFlow is running"));
+
+        mockMvc.perform(get("/api/health"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("MCP DevFlow is running"));
     }
 }
